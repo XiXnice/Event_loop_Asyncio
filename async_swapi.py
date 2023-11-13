@@ -11,21 +11,27 @@ CHUNK_SIZE = 10
 
 async def paste_to_db(people, people_id_chunk):
     async with Session() as session:
-        people = [People(id=int(id_chunk),
-                         birth_year=str(person["birth_year"]),
-                         eye_color=str(person["eye_color"]),
-                         films=str(person["films"]),
-                         gender=str(person["gender"]),
-                         hair_color=str(person["hair_color"]),
-                         height=str(person["height"]),
-                         homeworld=str(person["homeworld"]),
-                         mass=str(person["mass"]),
-                         name=str(person["name"]),
-                         skin_color=str(person["skin_color"]),
-                         species=str(person["species"]),
-                         starships=str(person["starships"]),
-                         vehicles=str(person["vehicles"]), ) for person, id_chunk in zip(people, people_id_chunk)]
-        session.add_all(people)
+        person_list = []
+        for person, id_chunk in zip(people, people_id_chunk):
+            if person == None:
+                pass
+            else:
+                people = People(id=int(id_chunk),
+                                 birth_year=person['birth_year'],
+                                 eye_color=person["eye_color"],
+                                 films=person["films"],
+                                 gender=person["gender"],
+                                 hair_color=person["hair_color"],
+                                 height=person["height"],
+                                 homeworld=person["homeworld"],
+                                 mass=person["mass"],
+                                 name=person["name"],
+                                 skin_color=person["skin_color"],
+                                 species=person["species"],
+                                 starships=person["starships"],
+                                 vehicles=person["vehicles"])
+                person_list.append(people)
+        session.add_all(person_list)
         await session.commit()
 
 
@@ -51,12 +57,20 @@ async def main():
 
 async def converter(result):
     final_list = []
-    for dict_pep in result:
-        for key, value_list in dict_pep.items():
-            if type(value_list) == list:
-                string_set = ', '.join(str(value) for value in value_list)
-                dict_pep.update({key: string_set})
-        final_list.append(dict_pep)
+    if len(result) == 0:
+        final_list = None
+    else:
+        for dict_pep in result:
+            if len(dict_pep) == 1:
+                dict_pep = None
+            else:
+                for key, value_list in dict_pep.items():
+                    if value_list == 'unknown' or value_list == '':
+                        dict_pep.update({key: None})
+                    if type(value_list) == list:
+                        string_set = ', '.join(str(value) for value in value_list)
+                        dict_pep.update({key: string_set})
+                final_list.append(dict_pep)
 
     return final_list
 

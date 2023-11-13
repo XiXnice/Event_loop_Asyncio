@@ -23,19 +23,19 @@ class People(Base):
     __tablename__ = "swapi_people"
 
     id: Mapped[int] = mapped_column(primary_key=True, autoincrement=False)
-    films: Mapped[str] = mapped_column(Text)
-    eye_color: Mapped[str] = mapped_column(String(255), nullable=False)
-    birth_year: Mapped[str] = mapped_column(String(255), nullable=False)
-    species: Mapped[str] = mapped_column(String(255), nullable=False)
-    skin_color: Mapped[str] = mapped_column(String(255), nullable=False)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    mass: Mapped[str] = mapped_column(String(255), nullable=False)
-    homeworld: Mapped[str] = mapped_column(String(255), nullable=False)
-    height: Mapped[str] = mapped_column(String(255), nullable=False)
-    hair_color: Mapped[str] = mapped_column(String(255), nullable=False)
-    gender: Mapped[str] = mapped_column(Text)
-    starships: Mapped[str] = mapped_column(Text)
-    vehicles: Mapped[str] = mapped_column(Text)
+    films: Mapped[str] = mapped_column(Text, nullable=True)
+    eye_color: Mapped[str] = mapped_column(String(255), nullable=True)
+    birth_year: Mapped[str] = mapped_column(String(255), nullable=True)
+    species: Mapped[str] = mapped_column(String(255), nullable=True)
+    skin_color: Mapped[str] = mapped_column(String(255), nullable=True)
+    name: Mapped[str] = mapped_column(String(255), nullable=True)
+    mass: Mapped[str] = mapped_column(String(255), nullable=True)
+    homeworld: Mapped[str] = mapped_column(String(255), nullable=True)
+    height: Mapped[str] = mapped_column(String(255), nullable=True)
+    hair_color: Mapped[str] = mapped_column(String(255), nullable=True)
+    gender: Mapped[str] = mapped_column(Text, nullable=True)
+    starships: Mapped[str] = mapped_column(Text, nullable=True)
+    vehicles: Mapped[str] = mapped_column(Text, nullable=True)
 
 
 async def init_db():
